@@ -1,6 +1,1 @@
-Cozinha
-Sala
-Corredor
-Copa
-Garagem
-Fundos
+Cozinha;Sala;Corredor;Copa;Garagem;Fundos

@@ -9,11 +9,16 @@ EthernetServer server(80);
 File webFile;
 
 String readString;
+String names;
 
 void setup()
 {
 
   Serial.begin(9600);
+
+  initializeSDCard();
+
+  getNames();
 
   setPins();
 
@@ -68,6 +73,13 @@ void setPinStatus()
     int pinValue = readString.substring(temRelay + 6, equalPos).toInt();
     int pinStatus = readString.substring(equalPos + 1, equalPos + 2).toInt();
 
+    if (pinValue == 4)
+    {
+      Serial.println("Não é possível usar o pino 4");
+      Serial.println("ele é usado pelo cartão SD");
+      return;
+    }
+
     if (pinStatus == 2)
     {
       if (digitalRead(pinValue) == 1)
@@ -95,35 +107,13 @@ void getHTML(EthernetClient cl)
   cl.println("Content-Type: text/html");
   cl.println();
 
-  Serial.println("Carregando HTML");
-  webFile = SD.open("index.html");
-  if (webFile)
-  {
-    while (webFile.available())
-    {
-      Serial.println("Lendo HTML");
-      cl.write(webFile.read());
-    }
-    webFile.close();
-  }
+  cl.println("<HTML>");
+  cl.println("<BODY>");
 
-  // cl.println("<HTML>");
-  // cl.println("<BODY>");
-  // cl.println("<H1>HomeAutomation 5</H1>");
-  // cl.println("<hr />");
-  // cl.println("<br />");
+  cl.println(names);
 
-  // cl.println("<button onclick=\"window.location.href = '/?relay2=2';\">Relay 2</button><br />");
-  // cl.println("<button onclick=\"window.location.href = '/?relay3=2';\">Relay 3</button><br />");
-  // cl.println("<button onclick=\"window.location.href = '/?relay4=2';\">Relay 4</button><br />");
-  // cl.println("<button onclick=\"window.location.href = '/?relay5=2';\">Relay 5</button><br />");
-  // cl.println("<button onclick=\"window.location.href = '/?relay6=2';\">Relay 6</button><br />");
-  // cl.println("<button onclick=\"window.location.href = '/?relay7=2';\">Relay 7</button><br />");
-  // cl.println("<button onclick=\"window.location.href = '/?relay8=2';\">Relay 8</button><br />");
-  // cl.println("<button onclick=\"window.location.href = '/?relay9=2';\">Relay 9</button><br />");
-
-  // cl.println("</BODY>");
-  // cl.println("</HTML>");
+  cl.println("</BODY>");
+  cl.println("</HTML>");
 }
 
 void readLastStates()
@@ -141,7 +131,33 @@ void setPins()
   pinMode(7, OUTPUT);
   pinMode(6, OUTPUT);
   pinMode(5, OUTPUT);
-  pinMode(4, OUTPUT);
   pinMode(3, OUTPUT);
   pinMode(2, OUTPUT);
+}
+
+void initializeSDCard()
+{
+  Serial.println("Incializando SD card...");
+  if (!SD.begin(4))
+  {
+    Serial.println("ERRO - falha ao inicializar SD card!");
+    return;
+  }
+  Serial.println("SUCCESS - SD card inicializado.");
+}
+
+void getNames()
+{
+  char c;
+  webFile = SD.open("names.txt");
+  if (webFile)
+  {
+    while (webFile.available())
+    {
+      c = webFile.read();
+      names += c;
+    }
+    webFile.close();
+  }
+  return names;
 }
