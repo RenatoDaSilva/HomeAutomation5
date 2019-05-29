@@ -105,15 +105,10 @@ void getHTML(EthernetClient cl)
 {
   cl.println("HTTP/1.1 200 OK");
   cl.println("Content-Type: text/html");
+//  cl.println("Content-Type: application/json");
   cl.println();
-
-  cl.println("<HTML>");
-  cl.println("<BODY>");
-
+  Serial.println(names);
   cl.println(names);
-
-  cl.println("</BODY>");
-  cl.println("</HTML>");
 }
 
 void readLastStates()
@@ -159,5 +154,6 @@ void getNames()
     }
     webFile.close();
   }
-  return names;
+
+  Serial.println(names);
 }

@@ -1,1 +1,8 @@
-Cozinha;Sala;Corredor;Copa;Garagem;Fundos
+{
+    "9": "Cozinha",
+    "8": "Sala",
+    "7": "Corredor",
+    "6": "Copa",
+    "5": "Garagem",
+    "3": "Fundos"
+}
