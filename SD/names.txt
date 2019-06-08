@@ -1,8 +1,8 @@
 {
-    "9": "Cozinha",
-    "8": "Sala",
-    "7": "Corredor",
-    "6": "Copa",
-    "5": "Garagem",
-    "3": "Fundos"
+    "8": "Fundos",
+    "3": "Copa",
+    "6": "Cozinha",
+    "7": "Garagem",
+    "2": "Corredor",
+    "9": "Sala"
 }

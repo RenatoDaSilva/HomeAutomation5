@@ -1,5 +1,3 @@
-#include <SD.h>
-
 void initializeSDCard()
 {
     Serial.println("Incializando SD card...");

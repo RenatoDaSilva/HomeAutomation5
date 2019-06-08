@@ -1,16 +1,23 @@
-    //    int posAuthKey = readString.indexOf("&auth_key=");
-    //    if (posAuthKey = 0)
-    //    {
-    //      Serial.println("Não foi informada chave de autorização");
-    //      return;
-    //      }
-    //
-    //    Serial.println(readString);
-    //    Serial.println(readString.length());
-    //    int authKeyFromRequest = readString.substring(posAuthKey + 9, readString.length()).toInt();
-    //    Serial.println(authKeyFromRequest);
-    //    if (authKeyFromRequest != 123456)
-    //    {
-    //      Serial.println("Chave de autorização não confere");
-    //      return;
-    //      }
+bool validateAuthKey()
+{
+    String textToFind = "&auth_key=";
+
+    int posAuthKey = readString.indexOf(textToFind);
+ 
+    if (posAuthKey == 0)
+    {
+        Serial.println("Não foi informada chave de autorização");
+        return false;
+    }
+
+    posAuthKey += textToFind.length();
+
+    int authKeyFromRequest = readString.substring(posAuthKey, posAuthKey + 6).toInt();
+    Serial.println(authKeyFromRequest);
+    if (authKeyFromRequest != config.authKey)
+    {
+        Serial.println("Chave de autorização não confere");
+        return false;
+    }
+    return true;
+}
